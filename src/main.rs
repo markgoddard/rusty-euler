@@ -33,7 +33,34 @@ fn problem2() {
     println!("Problem 2: {result}")
 }
 
+/// The prime factors of 13195 are 5, 7, 13 and 29.
+/// What is the largest prime factor of the number 600851475143 ?
+fn problem3() {
+    let n = 600851475143;
+    let max = (n as f64).sqrt() as u64;
+    let mut lpf = 1;
+    let mut factors = Vec::new();
+    for i in 2..max {
+        if n % i == 0 {
+            let mut prime = true;
+            for factor in &factors {
+                if i % factor == 0 {
+                    prime = false;
+                    break;
+                }
+            }
+            if prime {
+                lpf = i
+            }
+            factors.push(i);
+        }
+    }
+    let result = lpf;
+    println!("Problem 3: {result}")
+}
+
 fn main() {
     problem1();
     problem2();
+    problem3();
 }
