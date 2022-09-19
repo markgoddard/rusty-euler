@@ -59,8 +59,31 @@ fn problem3() {
     println!("Problem 3: {result}")
 }
 
+fn palindrome(n: u32) -> bool {
+    let s = format!("{n}");
+    s == s.chars().rev().collect::<String>()
+}
+
+// A palindromic number reads the same both ways. The largest palindrome made from the product of two 2-digit numbers is 9009 = 91 × 99.
+// Find the largest palindrome made from the product of two 3-digit numbers.
+fn problem4() {
+    let max = 10_u32.pow(3) - 1;
+    let mut largest = 1;
+    for i in 1..max {
+        for j in i..max {
+            let product = i * j;
+            if product > largest && palindrome(product) {
+                largest = product
+            }
+        }
+    }
+    let result = largest;
+    println!("Problem 4: {result}")
+}
+
 fn main() {
     problem1();
     problem2();
     problem3();
+    problem4();
 }
