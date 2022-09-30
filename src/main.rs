@@ -102,10 +102,25 @@ fn problem5() {
     println!("Problem 5: {result}")
 }
 
+// The sum of the squares of the first ten natural numbers is,
+// 385
+// The square of the sum of the first ten natural numbers is,
+// 3025
+// Hence the difference between the sum of the squares of the first ten natural numbers and the square of the sum is .
+// 2640
+// Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+fn problem6() {
+    let sum_square: u64 = (1..=100).map(|i: u64| i.pow(2)).sum();
+    let square_sum = (1..=100).sum::<u64>().pow(2);
+    let result = square_sum - sum_square;
+    println!("Problem 6: {result}")
+}
+
 fn main() {
     problem1();
     problem2();
     problem3();
     problem4();
     problem5();
+    problem6();
 }
