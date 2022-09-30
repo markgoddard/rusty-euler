@@ -81,9 +81,31 @@ fn problem4() {
     println!("Problem 4: {result}")
 }
 
+// 2520 is the smallest number that can be divided by each of the numbers from 1 to 10 without any remainder.
+// What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
+fn problem5() {
+    let mut i = 1;
+    loop {
+        let mut factor = true;
+        for prime in 2..20 {
+            if i % prime != 0 {
+                factor = false;
+                break
+            }
+        }
+        if factor {
+            break;
+        }
+        i += 1;
+    }
+    let result = i;
+    println!("Problem 5: {result}")
+}
+
 fn main() {
     problem1();
     problem2();
     problem3();
     problem4();
+    problem5();
 }
