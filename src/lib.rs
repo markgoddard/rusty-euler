@@ -28,7 +28,7 @@ fn problem2() {
         }
         (n, np) = fibonacci(n, np);
         if n >= 4000000 {
-            break
+            break;
         }
     }
     let result = sum;
@@ -92,7 +92,7 @@ fn problem5() {
         for prime in 2..20 {
             if i % prime != 0 {
                 factor = false;
-                break
+                break;
             }
         }
         if factor {
@@ -128,13 +128,13 @@ fn problem7() {
         for prime in &primes {
             if i % prime == 0 {
                 is_prime = false;
-                break
+                break;
             }
         }
         if is_prime {
             primes.push(i);
             if primes.len() == 10001 {
-                break
+                break;
             }
         }
         i += 1;
@@ -167,10 +167,14 @@ fn problem8() {
 84580156166097919133875499200524063689912560717606
 05886116467109405077541002256983155200055935729725
 71636269561882670428252483600823257530420752963450";
-    let n: Vec::<u64> = n.chars().filter(|c| c.is_digit(10)).map(|c| u64::from(c.to_digit(10).unwrap())).collect();
+    let n: Vec<u64> = n
+        .chars()
+        .filter(|c| c.is_digit(10))
+        .map(|c| u64::from(c.to_digit(10).unwrap()))
+        .collect();
     let mut max_product = 1;
     for i in 0..(n.len() - 13) {
-        let adjacents = &n[i..i+13];
+        let adjacents = &n[i..i + 13];
         let product: u64 = adjacents.iter().product();
         max_product = cmp::max(product, max_product);
     }
@@ -188,9 +192,7 @@ pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
         6 => problem6(),
         7 => problem7(),
         8 => problem8(),
-        _ => {
-            return Err("Unexpected problem number")
-        },
+        _ => return Err("Unexpected problem number"),
     };
     Ok(())
 }
