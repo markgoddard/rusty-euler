@@ -116,6 +116,31 @@ fn problem6() {
     println!("Problem 6: {result}")
 }
 
+// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can see that the 6th prime is 13.
+// What is the 10001st prime number?
+fn problem7() {
+    let mut primes = Vec::<u32>::new();
+    let mut i = 2;
+    loop {
+        let mut is_prime = true;
+        for prime in &primes {
+            if i % prime == 0 {
+                is_prime = false;
+                break
+            }
+        }
+        if is_prime {
+            primes.push(i);
+            if primes.len() == 10001 {
+                break
+            }
+        }
+        i += 1;
+    }
+    let result = i;
+    println!("Problem 7: {result}")
+}
+
 pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
     match problem {
         1 => problem1(),
@@ -124,6 +149,7 @@ pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
         4 => problem4(),
         5 => problem5(),
         6 => problem6(),
+        7 => problem7(),
         _ => {
             return Err("Unexpected problem number")
         },
