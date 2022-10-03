@@ -201,6 +201,59 @@ fn problem9() {
     println!("Problem 9: {result}")
 }
 
+struct Primes {
+    primes: Vec<u32>,
+}
+
+impl Primes {
+    fn new() -> Primes {
+        Primes { primes: Vec::<u32>::new() }
+    }
+}
+
+impl Iterator for Primes {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut next: u32 = 2;
+        match self.primes.last() {
+            Some(last) => next = *last + 1,
+            None => (),
+        }
+        loop {
+            let mut is_prime = true;
+            for prime in &self.primes {
+                if next % prime == 0 {
+                    is_prime = false;
+                    break;
+                }
+            }
+            if is_prime {
+                self.primes.push(next);
+                return Some(next)
+            }
+            next += 1
+        }
+    }
+}
+
+// The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+// Find the sum of all the primes below two million.
+fn problem10() {
+    // Could be more efficient with a sieve.
+    let primes = Primes::new();
+    let mut sum: u64 = 0;
+    for prime in primes {
+        if prime < 2000000 {
+            sum += prime as u64
+        } else {
+            break
+        }
+    }
+    let result = sum;
+    println!("Problem 10: {result}")
+}
+
 pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
     match problem {
         1 => problem1(),
@@ -212,6 +265,7 @@ pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
         7 => problem7(),
         8 => problem8(),
         9 => problem9(),
+        10 => problem10(),
         _ => return Err("Unexpected problem number"),
     };
     Ok(())
