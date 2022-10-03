@@ -182,6 +182,25 @@ fn problem8() {
     println!("Problem 8: {result}")
 }
 
+// A Pythagorean triplet is a set of three natural numbers, a < b < c, for which,
+// a^2 + b^2 = c^2
+// For example, 3^2 + 4^2 = 9 + 16 = 25 = 52.
+// There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+// Find the product abc.
+fn problem9() {
+    let mut product = 0;
+    for a in 1..998_u32 {
+        for b in (a + 1)..(1000 - a) {
+            let c = 1000 - a - b;
+            if a.pow(2) + b.pow(2) == c.pow(2) {
+                product = a * b * c
+            }
+        }
+    }
+    let result = product;
+    println!("Problem 9: {result}")
+}
+
 pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
     match problem {
         1 => problem1(),
@@ -192,6 +211,7 @@ pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
         6 => problem6(),
         7 => problem7(),
         8 => problem8(),
+        9 => problem9(),
         _ => return Err("Unexpected problem number"),
     };
     Ok(())
