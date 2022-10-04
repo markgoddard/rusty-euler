@@ -279,38 +279,31 @@ fn problem11() {
                 [20, 73, 35, 29, 78, 31, 90, 01, 74, 31, 49, 71, 48, 86, 81, 16, 23, 57, 05, 54],
                 [01, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 01, 89, 19, 67, 48]];
     let mut max_product = 1;
-    // left/right
-    for i in 0..20 {
-        for j in 0..17 {
-            let lr = &grid[i][j..j+4];
-            let product = lr.iter().product();
-            max_product = cmp::max(product, max_product);
+
+    let sweep = | h: i32, v: i32 | {
+        let mut max_product: u32= 1;
+        let i0: u32 = if h >= 0 { 0 } else { 3 };
+        let imax: u32 = if h <= 0 { 20 } else { 16 };
+        let j0: u32 = if v >= 0 { 0 } else { 3 };
+        let jmax: u32 = if v <= 0 { 20 } else { 16 };
+        for i in i0..imax {
+            for j in j0..jmax {
+                let product = [
+                    grid[j as usize][i as usize],
+                    grid[(j as i32 + v) as usize][(i as i32 + h) as usize],
+                    grid[(j as i32 + 2 * v) as usize][(i as i32 + 2 * h) as usize],
+                    grid[(j as i32 + 3 * v) as usize][(i as i32 + 3 * h) as usize],
+                ].iter().product();
+                max_product = cmp::max(max_product, product)
+            }
         }
-    }
-    // up/down
-    for j in 0..20 {
-        for i in 0..17 {
-            let ud = [grid[i][j], grid[i+1][j], grid[i+2][j], grid[i+3][j]];
-            let product = ud.iter().product();
-            max_product = cmp::max(product, max_product);
-        }
-    }
-    // lr diagonal
-    for i in 0..17 {
-        for j in 0..17 {
-            let lr = [grid[i][j], grid[i+1][j+1], grid[i+2][j+2], grid[i+3][j+3]];
-            let product = lr.iter().product();
-            max_product = cmp::max(product, max_product);
-        }
-    }
-    // rl diagonal
-    for i in 0..17 {
-        for j in 0..17 {
-            let rl = [grid[i][j+3], grid[i+1][j+2], grid[i+2][j+1], grid[i+3][j]];
-            let product = rl.iter().product();
-            max_product = cmp::max(product, max_product);
-        }
-    }
+        max_product
+    };
+    max_product = cmp::max(max_product, sweep(1, 0));
+    max_product = cmp::max(max_product, sweep(0, 1));
+    max_product = cmp::max(max_product, sweep(1, 1));
+    max_product = cmp::max(max_product, sweep(1, -1));
+
     let result = max_product;
     println!("{result}")
 }
