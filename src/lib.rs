@@ -1,4 +1,5 @@
 use std::cmp;
+use std::collections::HashSet;
 
 /// If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
 /// Find the sum of all the multiples of 3 or 5 below 1000.
@@ -473,6 +474,51 @@ fn problem13() {
     println!("Problem 13 {result}")
 }
 
+fn collatz(n: u64) -> u64 {
+    match n % 2 {
+        0 => n / 2,
+        1 => 3 * n + 1,
+        _other => panic!("help")
+    }
+}
+
+// The following iterative sequence is defined for the set of positive integers:
+// n → n/2 (n is even)
+// n → 3n + 1 (n is odd)
+// Using the rule above and starting with 13, we generate the following sequence:
+// 13 → 40 → 20 → 10 → 5 → 16 → 8 → 4 → 2 → 1
+// It can be seen that this sequence (starting at 13 and finishing at 1) contains 10 terms. Although it has not been proved yet (Collatz Problem), it is thought that all starting numbers finish at 1.
+// Which starting number, under one million, produces the longest chain?
+// NOTE: Once the chain starts the terms are allowed to go above one million.
+fn problem14() {
+    let mut seen = HashSet::new();
+    let mut best = 0;
+    let mut best_length = 0;
+    for i in (1..=1000000).rev() {
+        if seen.contains(&i) {
+            continue
+        }
+        seen.insert(i);
+        let mut c = i;
+        let mut current_length = 1;
+        loop {
+            c = collatz(c);
+            // No need to check subsequences
+            seen.insert(c);
+            current_length += 1;
+            if c == 1 {
+                break
+            }
+        }
+        if current_length > best_length {
+            best = i;
+            best_length = current_length
+        }
+    }
+    let result = best;
+    println!("Problem 14 {result}")
+}
+
 pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
     match problem {
         1 => problem1(),
@@ -488,6 +534,7 @@ pub fn solve_problem(problem: u32) -> Result<(), &'static str> {
         11 => problem11(),
         12 => problem12(),
         13 => problem13(),
+        14 => problem14(),
         _ => return Err("Unexpected problem number"),
     };
     Ok(())
